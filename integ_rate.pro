@@ -150,6 +150,7 @@ for i = 0, n_elements(T)-1 do begin
   Emax = max([1.38d-16*Tp * 1d2, Emx])
   if ie eq 0 then Emax = max(Ecm)   ; added PB 20090525
   ; new options 20090525 to not use adaptive grid - good for sharp resonances
+  igral = 0.d0
   case ia of
     ; adaptive grid
     0: igral = qpint1d('rkernel', Emin, Emax, epsrel=1d-8, status=st)
@@ -163,7 +164,7 @@ for i = 0, n_elements(T)-1 do begin
          ind = where(Ecm ge 0.)
          Ecmt = Ecm(ind)
          nEcmt = n_elements(Ecmt)
-         igral = total(( rkernel(Ecmt(0l:nEcmt-2l)) + rkernel(Ecmt(1l:nEcmt-1l)) ) /2. * ( Ecmt(1l:nEcmt-1l) - Ecmt(0l:nEcmt-2l) ))
+         if nEcmt gt 1 then igral = total(( rkernel(Ecmt(0l:nEcmt-2l)) + rkernel(Ecmt(1l:nEcmt-1l)) ) /2. * ( Ecmt(1l:nEcmt-1l) - Ecmt(0l:nEcmt-2l) ))
        end
   endcase
   C[i] = igral 

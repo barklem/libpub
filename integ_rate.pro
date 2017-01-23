@@ -59,6 +59,8 @@ ind = where(Ecm/kB/T lt 500.d0, nind)         ; numerical limit for exp(-arg)
 kernel = 0.d0 * Ecm
 if nind gt 0 then $
   kernel[ind] = cross[ind] * exp(-1.d0*Ecm[ind]/kB/T) * Ecm[ind] * const 
+indf = where(finite(kernel) ne 1, nindf)
+if nindf gt 0 then stop, 'Non-finite kernel values - stopping'
 return, kernel
 end
 
@@ -169,5 +171,6 @@ for i = 0, n_elements(T)-1 do begin
   endcase
   C[i] = igral 
 endfor
-
+indf = where(finite(C) ne 1, nindf)
+if nindf gt 0 then stop, 'Non-finite rate coefficient values - stopping'
 end

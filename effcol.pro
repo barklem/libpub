@@ -15,6 +15,7 @@ Ac = 8.629e-6 ; cm^3 s^-1 K^1/2
 if keyword_set(down) then begin
    colstr = C/Ac *g *sqrt(T) 
 endif else begin
-   colstr = C/Ac *g *sqrt(T) * exp(dE/(k*T)) 
+   ;colstr = C/Ac *g *sqrt(T) * exp(dE/(k*T)) 
+   colstr = exp(alog(C/Ac *g *sqrt(T))+dE/(k*T))  ; limits numerical error at small T
 end
 end
